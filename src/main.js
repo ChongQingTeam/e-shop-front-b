@@ -15,17 +15,20 @@ import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
-import Axios from 'axios'
+// import axios from '@/libs/api.request'
+
+// Vue.prototype.$axios = axios
+// axios.defaults.baseURL = '/api'
+
 // 实际打包时应该不引入mock
 /* eslint-disable */
-if (process.env.NODE_ENV !== 'production') require('@/mock')
+// if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
 Vue.use(TreeTable)
 Vue.use(VOrgTree)
-
 /**
  * @description 注册admin内置插件
  */
@@ -38,12 +41,6 @@ Vue.config.productionTip = false
  * @description 全局注册应用配置
  */
 Vue.prototype.$config = config
-
-Vue.prototype.$axios = Axios
-
-window.Vue = Vue
-
-Axios.defaults.baseURL = '/api'
 /**
  * 注册指令
  */

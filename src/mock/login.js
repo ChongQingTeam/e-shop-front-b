@@ -1,4 +1,5 @@
 import { getParams } from '@/libs/util'
+import axios from '@/libs/api.request'
 
 const USER_MAP = {
   super_admin: {
@@ -18,10 +19,6 @@ const USER_MAP = {
 }
 
 export const login = req => {
-  debugger
-  Vue.prototype.$axios.get('/test/hello').then(res => {
-    console.info(res)
-  })
   req = JSON.parse(req.body)
   return { token: USER_MAP[req.userName].token }
 }

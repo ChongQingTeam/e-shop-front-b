@@ -12,25 +12,11 @@ const resolve = dir => {
 // 例如：https://www.foobar.com/my-app/
 // 需要将它改为'/my-app/'
 // iview-admin线上演示打包路径： https://file.iviewui.com/admin-dist/
-// const BASE_URL = process.env.NODE_ENV === 'production'
-//   ? '/'
-//   : '/'
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? '/'
+  : '/'
 
 module.exports = {
-  devServer: {
-    proxy: {
-      '/api': {
-        // 此处的写法，目的是为了 将 /api 替换成 https://www.baidu.com/
-        target: 'http://localhost:9090/',
-        // 允许跨域
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
-  },
   // Project deployment base
   // By default we assume your app will be deployed at the root of a domain,
   // e.g. https://www.my-app.com/
@@ -48,11 +34,22 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))
+      .set('_conf', resolve('config'))
   },
   // 设为false打包时不生成.map文件
-  productionSourceMap: false
+  productionSourceMap: false,
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
   // devServer: {
   //   proxy: 'localhost:3000'
   // }
+  // 添加如下配置
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:9090/',
+        changeOrigin: true
+      }
+    }
+  }
+
 }
