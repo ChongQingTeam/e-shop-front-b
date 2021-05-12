@@ -24,16 +24,26 @@ export default {
   },
   methods: {
     ...mapActions([
-      'handleLogin',
-      'getUserInfo'
+      'handleLogin'
+      // ,'getUserInfo'
     ]),
     handleSubmit ({ userName, password }) {
+      const that = this
       this.handleLogin({ userName, password }).then(res => {
-        this.getUserInfo().then(res => {
-          this.$router.push({
-            name: this.$config.homeName
-          })
-        })
+        debugger
+        if (res != null && res.data != null) {
+          if (res.data.status === '200' && res.data.success === true) {
+            that.$router.push({
+              name: that.$config.homeName
+            }).catch(err => {
+              console.info(err)
+            })
+          }
+        }
+
+        // this.getUserInfo().then(res => {
+
+        // })
       })
     }
   }

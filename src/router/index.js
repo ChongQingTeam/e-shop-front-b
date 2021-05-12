@@ -7,6 +7,23 @@ import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
 import config from '@/config'
 const { homeName } = config
 
+const USER_MAP = {
+  super_admin: {
+    name: 'super_admin',
+    user_id: '1',
+    access: ['super_admin', 'admin'],
+    token: 'super_admin',
+    avatar: 'https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png'
+  },
+  admin: {
+    name: 'admin',
+    user_id: '2',
+    access: ['admin'],
+    token: 'admin',
+    avatar: 'https://avatars0.githubusercontent.com/u/20942571?s=460&v=4'
+  }
+}
+
 Vue.use(Router)
 const router = new Router({
   routes,
@@ -39,15 +56,20 @@ router.beforeEach((to, from, next) => {
     if (store.state.user.hasGetInfo) {
       turnTo(to, store.state.user.access, next)
     } else {
-      store.dispatch('getUserInfo').then(user => {
-        // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-        turnTo(to, user.access, next)
-      }).catch(() => {
-        setToken('')
-        next({
-          name: 'login'
-        })
-      })
+      const accesstmp = USER_MAP['super_admin'].access
+      turnTo(to, accesstmp, next)
+      // todo 权限管理
+      // store.dispatch('getUserInfo').then(user => {
+      //   // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
+      //   // turnTo(to, user.access, next)
+      //   const accesstmp = USER_MAP['super_admin'].access
+      //   turnTo(to, accesstmp, next)
+      // }).catch(() => {
+      //   setToken('')
+      //   next({
+      //     name: 'login'
+      //   })
+      // })
     }
   }
 })
