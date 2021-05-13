@@ -54,6 +54,7 @@ export default [
     path: '',
     name: 'doc',
     meta: {
+      access: ['super_admin'],
       title: '文档',
       href: 'https://lison16.github.io/iview-admin-doc/#/',
       icon: 'ios-book'
