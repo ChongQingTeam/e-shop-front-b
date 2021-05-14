@@ -12,13 +12,28 @@
         </div>
       </Card>
     </div>
+    <Modal
+      v-model="showError"
+      title="登录报错"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <p>{{msg}}</p>
+    </Modal>
   </div>
 </template>
 
 <script>
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
+import { encrptyAES } from '@/libs/util'
+
 export default {
+  data () {
+    return {
+      showError: false,
+      msg: '登录出错，请重试！'
+    }
+  },
   components: {
     LoginForm
   },
@@ -29,18 +44,19 @@ export default {
     ]),
     handleSubmit ({ userName, password }) {
       const that = this
+      password = encrptyAES(password)
       this.handleLogin({ userName, password }).then(res => {
-        if (res != null && res.data != null) {
-          if (res.data.status === '200' && res.data.success === true) {
-            this.getUserInfo({ userName }).then(res => {
-              that.$router.push({
-                name: that.$config.homeName
-              }).catch(err => {
-                console.info(err)
-              })
+        if (res.data.status === '200' && res.data.success === true) {
+          this.getUserInfo({ userName }).then(res => {
+            that.$router.push({
+              name: that.$config.homeName
+            }).catch(err => {
+              console.info(err)
             })
-
-          }
+          })
+        } else {
+          that.showError = true
+          that.msg = res.data.msg
         }
       })
     }

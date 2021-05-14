@@ -1,7 +1,6 @@
 import axios from '@/libs/api.request'
 
 export const login = ({ username, password }) => {
-  debugger
   const data = {
     username,
     password

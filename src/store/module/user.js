@@ -81,9 +81,10 @@ export default {
           username,
           password
         }).then(res => {
-          debugger
           const data = res.data
-          commit('setToken', data.result)
+          if (data.status === '200') {
+            commit('setToken', data.result)
+          }
           resolve(res)
         }).catch(err => {
           reject(err)
