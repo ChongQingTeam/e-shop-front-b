@@ -1,5 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
+// 引入getToken
+import { getToken } from './util'
 // import { Spin } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
@@ -22,6 +24,7 @@ class HttpRequest {
       baseURL: this.baseUrl,
       headers: {
         //
+        token: getToken()
       }
     }
     return config
@@ -65,6 +68,7 @@ class HttpRequest {
     })
   }
   request (options) {
+    debugger
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)
