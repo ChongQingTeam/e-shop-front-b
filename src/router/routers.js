@@ -80,6 +80,25 @@ export default [
     ]
   },
   {
+    path: '/list',
+    name: 'list',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [
+      {
+        path: 'list_admin',
+        name: '管理员信息列表',
+        meta: {
+          icon: '_qq',
+          title: '管理员信息'
+        },
+        component: () => import('@/view/list_admin.vue')
+      }
+    ]
+  },
+  {
     path: '/message',
     name: 'message',
     component: Main,
