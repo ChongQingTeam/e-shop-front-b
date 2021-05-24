@@ -11,12 +11,14 @@
     </Table>
     <Button @click="selectAll(true)" >全选</Button>
     <Button @click="selectAll(false)" >全不选</Button>
+    <Button @click="testQuery()">测试查询</Button>
 
     <Page :total=4 show-sizer   show-elevator></Page>
 
 </div>
 </template>
 <script>
+import { testQuery1 } from '@/api/data'
 export default {
   data () {
     return {
@@ -27,12 +29,13 @@ export default {
           align: 'center'
         },
         {
-          title: 'Name',
-          slot: 'name'
+          title: 'adminName',
+          key: 'adminName'
+          // slot: 'name'
         },
         {
-          title: 'Age',
-          key: 'age',
+          title: 'mobile',
+          key: 'mobile',
           sortable: true
         },
         {
@@ -58,28 +61,7 @@ export default {
           align: 'center'
         }
       ],
-      data6: [
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park'
-        },
-        {
-          name: 'Jim Green',
-          age: 24,
-          address: 'London No. 1 Lake Park'
-        },
-        {
-          name: 'Joe Black',
-          age: 30,
-          address: 'Sydney No. 1 Lake Park'
-        },
-        {
-          name: 'Jon Snow',
-          age: 26,
-          address: 'Ottawa No. 2 Lake Park'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
@@ -94,6 +76,21 @@ export default {
     },
     selectAll (status) {
       this.$refs.selection.selectAll(status)
+    },
+    testQuery () {
+      var that = this
+      var tmp = []
+      debugger
+      testQuery1().then(res => {
+        const data = res.data
+        if (data.status === '200') {
+          tmp.push(data.result)
+          that.data6 = tmp
+        }
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
     }
 
   }
